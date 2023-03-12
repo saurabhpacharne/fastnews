@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./App.css"
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
 const Feed = () => {
-  let navigate = useNavigate()
+    
     const [post, setPost]=useState([]);
     useEffect(()=>{
 getAllAPost();
@@ -21,25 +21,47 @@ const deletePost = async(id)=>{
 
 }
 
+const getEntertainment=async()=>{
+const res = await axios.get("http://localhost:3005/news")
+const data = (res.data).filter((val)=>val.category=="Entertainment")
+setPost(data)
+}
+const getPolitics=async()=>{
+  const res = await axios.get("http://localhost:3005/news")
+  const data = (res.data).filter((val)=>val.category=="Politics")
+  setPost(data)
+  }
+  const getSports=async()=>{
+    const res = await axios.get("http://localhost:3005/news")
+    const data = (res.data).filter((val)=>val.category=="Sports")
+    setPost(data)
+    }
+    const getAll =()=>{
+      getAllAPost()
+    }
   return (
    <>
-    <nav className="navbar sticky-top">
-  <div className="container-fluid">
-    <a className="navbar-brand">FASTNEWS</a>
-    <div class="dropdown ms-end">
-  <button class="btn dropdown-toggle fw-bold text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    category
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Sports</a></li>
-    <li><a class="dropdown-item" href="#">Enternainment</a></li>
-    <li><a class="dropdown-item" href="#">Politics</a></li>
-  </ul>
+   <nav className='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'>
+  <div className='container-fluid'>
+    <a href="" className='navbar-brand'>FASTNEWS</a>
+    <ul className='navbar-nav '>
+      <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul className="dropdown-menu">
+            <li><a className="dropdown-item" type='button'onClick={()=>getEntertainment()}>Entertainment</a></li>
+            <li><a className="dropdown-item" type='button'onClick={()=>getSports()}>Sports</a></li>
+            <li><a className="dropdown-item" type='button'onClick={()=>getPolitics()}>Politics</a></li>
+            <li><a className="dropdown-item" type='button'onClick={()=>getAll()}>Get All News</a></li>
+          </ul>
+        </li>
+        <li className='nav-item '><NavLink className='nav-link'to="/">Create Post</NavLink>
+      </li>
+      </ul>
 </div>
-    <NavLink to="/" className=" nav-link active fw-bold text-white ms-auto ">Create news</NavLink>
-   
-   </div>
 </nav>
+
 {
     post.map((val)=>{
         return(

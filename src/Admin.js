@@ -33,18 +33,14 @@ navigate("/feed");
 
   return (
     <>
-    <nav className="navbar sticky-top">
-  <div className="container-fluid">
-    <a className="navbar-brand ">FASTNEWS</a>
-              <NavLink
-                className="nav-link active text-white fw-bold me-3"
-                aria-current="page"
-                to="/feed"
-
-              >
-                Post
-              </NavLink>  
-  </div>
+<nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+  <div className='container-fluid'>
+    <a href="" className='navbar-brand'>FASTNEWS</a>
+    <ul className='navbar-nav '>
+      <li className='nav-item '><NavLink className='nav-link'to="/feed">Post</NavLink>
+      </li>
+      </ul>
+</div>
 </nav>
 <div className='row'>
   <div className='col-8 shadow mt-4' id='box'>

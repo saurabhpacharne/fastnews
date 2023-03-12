@@ -44,10 +44,10 @@ useEffect(()=>{
 
   return (
     <>
-    <nav className="navbar sticky-top">
-  <div className="container-fluid">
-    <a className="navbar-brand ">FASTNEWS</a>  
-  </div>
+   <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+  <div className='container-fluid'>
+    <a href="" className='navbar-brand'>FASTNEWS</a>
+</div>
 </nav>
 <div className='row'>
   <div className='col-8 shadow mt-4' id='box'>

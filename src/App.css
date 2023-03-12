@@ -2,19 +2,6 @@
     margin: 0;
     padding: 0;
 }
-nav{
-    background-color: black;
-    color: white;
-    padding: 20px;
-    
-}
-
-
-.navbar-brand{
-    font-size: 30px;
-    font-family: 'Times New Roman', Times, serif;
-    color: white;
-}
 #box{
     
     margin: auto;
