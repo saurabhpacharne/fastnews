@@ -56,7 +56,7 @@ const getPolitics=async()=>{
             <li><a className="dropdown-item" type='button'onClick={()=>getAll()}>Get All News</a></li>
           </ul>
         </li>
-        <li className='nav-item '><NavLink className='nav-link'to="/">Create Post</NavLink>
+        <li className='nav-item '><NavLink className='nav-link'to="/admin">Create Post</NavLink>
       </li>
       </ul>
 </div>
@@ -73,12 +73,14 @@ const getPolitics=async()=>{
   <div className="card-body">
     <h5 className="card-title">{val.title}</h5>
     <p className="card-text">{val.description}.</p>
-    <NavLink to="/feed"><button className='btn btn-danger me-2' style={{width:"50px"}} onClick={()=>deletePost(val.id)}><span className="material-symbols-outlined"  style={{width:"30px"}}>
+   <div>
+   <NavLink to="/feed"><button className='btn btn-danger me-2' style={{width:"50px"}} onClick={()=>deletePost(val.id)}><span className="material-symbols-outlined"  style={{width:"30px"}}>
 delete
 </span></button></NavLink>
     <NavLink to={`/edit/${val.id}`}><button className='btn btn-warning' style={{width:"50px"}}><span className="material-symbols-outlined" style={{width:"30px"}}>
 edit_note
 </span></button></NavLink>
+   </div>
   </div>
 </div>
    </div>
