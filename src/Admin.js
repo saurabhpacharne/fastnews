@@ -5,6 +5,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 import { userAuth } from './contex';
 import {signOut, getAuth} from 'firebase/auth'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
   const {user} = useContext(userAuth)
@@ -34,7 +36,16 @@ setpost({
 })
 navigate("/feed");
   }else{
-    alert("please fill all the fields")
+    toast.warning("Please fill all fields",{
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    })
   }
 }
 const userLogOut = ()=>{
@@ -73,13 +84,13 @@ console.log(user.email)
 </div>
 </div>
 </nav>
-<div className='row form-group'>
-  <div className='col-8 shadow mt-4 ' id='box'>
-    <h1 className='text-center mt-3 fw-bold'>ADD NEWS DETAILS </h1>
-    <form className="form " onSubmit={e=>onSubmit(e)} >
+<div className='row '>
+<h1 className='text-center mt-3 fw-bold'>ADD NEWS DETAILS </h1>
+  <div className=' d-flex justify-content-center mt-4 ' id='box'>
+    <form className="form col-8 col-md-8 col-sm-12 shadow-lg form-group border border-3" onSubmit={e=>onSubmit(e)} >
       <label >TITLE:</label>
       <br></br>
-      <input clsaaName="form-control" type="text" id="title" name='title' value={title} onChange={e=>onInputchange(e)}  />
+      <input clsaaName="form-control " type="text" id="title" name='title' value={title} onChange={e=>onInputchange(e)}  />
       <br></br>
       <label >DESCRIPTION:</label>
       <br></br>
@@ -104,7 +115,7 @@ console.log(user.email)
   </div>
 
 </div>
-
+<ToastContainer/>
     </>
   )
 }

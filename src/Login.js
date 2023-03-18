@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider, signInWithPopup
 import GoogleButton from 'react-google-button'
 import {app } from "./firebase"
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => { 
@@ -28,9 +28,13 @@ const Login = () => {
       }))
     
   }
-  const signInWithGoogle = ()=>{
-    signInWithPopup(auth,googleProvider )
+   const loginWithGoogle = ()=>{
+    if(signInWithPopup(auth,googleProvider)){
+      navigate("/admin");
+    }
+    
   }
+
   return (
     <>
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -60,9 +64,9 @@ const Login = () => {
  <button type="submit" onClick ={e=>signUser(e)}className="btn btn-dark " >Login</button>
  </div>
  <div className='d-flex justify-content-center '> 
-   <GoogleButton className='bg-dark' onClick={signInWithGoogle}/>
+   <GoogleButton className='bg-dark' onClick={loginWithGoogle}/>
  </div>
- <p>
+ <p className='mt-2'>
               Have an account?{" "}
               <a
                 className="mt-2 text-center"

@@ -39,6 +39,12 @@ const getPolitics=async()=>{
     const getAll =()=>{
       getAllAPost()
     }
+    let date = new Date();
+    let day = `${date.getDate()<10?"0":""}${date.getDate()}`
+    let month = `${(date.getMonth()+1)<10?"0":""}${date.getMonth()+1}`
+    let year = date.getFullYear();
+    const todaysDate = `${day}/${month}/${year}`
+    
   return (
    <>
    <nav className='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'>
@@ -49,8 +55,8 @@ const getPolitics=async()=>{
           <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Category
           </a>
-          <ul className="dropdown-menu">
-            <li><a className="dropdown-item" type='button'onClick={()=>getEntertainment()}>Entertainment</a></li>
+          <ul className="dropdown-menu ">
+            <li><a className="dropdown-item " type='button'onClick={()=>getEntertainment()}>Entertainment</a></li>
             <li><a className="dropdown-item" type='button'onClick={()=>getSports()}>Sports</a></li>
             <li><a className="dropdown-item" type='button'onClick={()=>getPolitics()}>Politics</a></li>
             <li><a className="dropdown-item" type='button'onClick={()=>getAll()}>Get All News</a></li>
@@ -67,7 +73,7 @@ const getPolitics=async()=>{
         return(
             <>
             <div className='row mt-4 '>
-    <div className='col-7' style={{margin:"auto"}}>
+    <div className='col-lg-7 col-md-9 col-sm-12 p-2' style={{margin:"auto"}}>
     <div className="card shadow-lg p-2">
   <img src={val.image} className="card-img-top" style={{height:"400px"}}/>
   <div className="card-body">
@@ -80,6 +86,7 @@ delete
     <NavLink to={`/edit/${val.id}`}><button className='btn btn-warning' style={{width:"50px"}}><span className="material-symbols-outlined" style={{width:"30px"}}>
 edit_note
 </span></button></NavLink>
+<span className='d-flex justify-content-end '>{todaysDate}</span>
    </div>
   </div>
 </div>
