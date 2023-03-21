@@ -1,70 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import "./App.css"
 import { NavLink} from 'react-router-dom';
+import { collection, query, orderBy, onSnapshot, where} from "firebase/firestore"
+import {db} from "./firebase"
+import NewsCard from './NewsCard';
 
 const Feed = () => {
-    
-    const [post, setPost]=useState([]);
-    useEffect(()=>{
-getAllAPost();
-    },[])
-
-const getAllAPost =async()=>{
-const result = await axios.get("http://localhost:3005/news");
-setPost(result.data.reverse())
-}
-
-const deletePost = async(id)=>{
-  axios.delete(`http://localhost:3005/news/${id}`)
-  getAllAPost();
-
-}
-
-const getEntertainment=async()=>{
-const res = await axios.get("http://localhost:3005/news")
-const data = (res.data).filter((val)=>val.category=="Entertainment")
-setPost(data)
-}
-const getPolitics=async()=>{
-  const res = await axios.get("http://localhost:3005/news")
-  const data = (res.data).filter((val)=>val.category=="Politics")
-  setPost(data)
+  const [post, setPost]= useState([])
+  const collectinRef = collection(db, "news")
+ 
+  const getAllPost = ()=>{
+    const q = query(collectinRef,orderBy("date","desc"));
+      onSnapshot(q,(snapShot)=>{
+      const allPost = snapShot.docs.map((doc)=>({
+        id : doc.id,
+        ...doc.data()
+      }));
+      setPost(allPost)
+    })
   }
-  const getSports=async()=>{
-    const res = await axios.get("http://localhost:3005/news")
-    const data = (res.data).filter((val)=>val.category=="Sports")
-    setPost(data)
-    }
-    const getAll =()=>{
-      getAllAPost()
-    }
-    let date = new Date();
-    let day = `${date.getDate()<10?"0":""}${date.getDate()}`
-    let month = `${(date.getMonth()+1)<10?"0":""}${date.getMonth()+1}`
-    let year = date.getFullYear();
-    const todaysDate = `${day}/${month}/${year}`
+  useEffect(()=>{
+    getAllPost();
+  },[])
+  const getPoliticsNews= ()=>{
+    const q = query(collectinRef,where("category", "==", "Politics"));
+    onSnapshot(q,(snapShot)=>{
+      const allPost = snapShot.docs.map((doc)=>({
+        id : doc.id,
+        ...doc.data()
+      }));
+      setPost(allPost)
+    })
+  }
+  const getSportNews= ()=>{
+    const q = query(collectinRef,where("category", "==", "Sports"));
+    onSnapshot(q,(snapShot)=>{
+      const allPost = snapShot.docs.map((doc)=>({
+        id : doc.id,
+        ...doc.data()
+      }));
+      setPost(allPost)
+    })
+  }
+  const getOtherNews= ()=>{
+    const q = query(collectinRef,where("category", "==", "Other"));
+    onSnapshot(q,(snapShot)=>{
+      const allPost = snapShot.docs.map((doc)=>({
+        id : doc.id,
+        ...doc.data()
+      }));
+      setPost(allPost)
+    })
+  }
+  const getEnterTainNews= ()=>{
+    const q = query(collectinRef,where("category", "==", "Entertainment"));
+    onSnapshot(q,(snapShot)=>{
+      const allPost = snapShot.docs.map((doc)=>({
+        id : doc.id,
+        ...doc.data()
+      }));
+      setPost(allPost)
+    })
+  }
+  const getAllNews = ()=>{
+    getAllPost()
+  }
     
   return (
    <>
    <nav className='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'>
   <div className='container-fluid'>
     <a href="" className='navbar-brand'>FASTNEWS</a>
-    <ul className='navbar-nav '>
+    <button className='navbar-toggler' type='button' data-bs-toggle="collapse"data-bs-target="#myNav">
+      <span className="navbar-toggler-icon"></span>
+      </button>
+   <div className="collapse navbar-collapse text-center" id="myNav">
+   <ul className='navbar-nav ms-auto '>
       <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Category
           </a>
           <ul className="dropdown-menu ">
-            <li><a className="dropdown-item " type='button'onClick={()=>getEntertainment()}>Entertainment</a></li>
-            <li><a className="dropdown-item" type='button'onClick={()=>getSports()}>Sports</a></li>
-            <li><a className="dropdown-item" type='button'onClick={()=>getPolitics()}>Politics</a></li>
-            <li><a className="dropdown-item" type='button'onClick={()=>getAll()}>Get All News</a></li>
+            <li><a className="dropdown-item " type='button' value="Entertainment"onClick={getEnterTainNews}>Entertainmeent</a></li>
+            <li><a className="dropdown-item" type='button'onClick={getSportNews}>Sports</a></li>
+            <li><a className="dropdown-item" type='button' onClick={getPoliticsNews}>Politics</a></li>
+            <li><a className="dropdown-item" type='button'onClick={getOtherNews}>Other</a></li>
+            <li><a className="dropdown-item" type='button'onClick={getAllNews}>Get All News</a></li>
           </ul>
-        </li>
-        <li className='nav-item '><NavLink className='nav-link'to="/admin">Create Post</NavLink>
-      </li>
+        </li>  
+        <li className='nav-item '><NavLink className='nav-link'to="/admin">Create Post</NavLink></li>      
       </ul>
+   </div>
 </div>
 </nav>
 
@@ -72,30 +98,11 @@ const getPolitics=async()=>{
     post.map((val)=>{
         return(
             <>
-            <div className='row mt-4 '>
-    <div className='col-lg-7 col-md-9 col-sm-12 p-2' style={{margin:"auto"}}>
-    <div className="card shadow-lg p-2">
-  <img src={val.image} className="card-img-top" style={{height:"400px"}}/>
-  <div className="card-body">
-    <h5 className="card-title">{val.title}</h5>
-    <p className="card-text">{val.description}.</p>
-   <div>
-   <NavLink to="/feed"><button className='btn btn-danger me-2' style={{width:"50px"}} onClick={()=>deletePost(val.id)}><span className="material-symbols-outlined"  style={{width:"30px"}}>
-delete
-</span></button></NavLink>
-    <NavLink to={`/edit/${val.id}`}><button className='btn btn-warning' style={{width:"50px"}}><span className="material-symbols-outlined" style={{width:"30px"}}>
-edit_note
-</span></button></NavLink>
-<span className='d-flex justify-content-end '>{todaysDate}</span>
-   </div>
-  </div>
-</div>
-   </div>
-</div>
+         <div key={val.date}>  <NewsCard {...val} /></div>
             </>
         )
     })
-}
+} 
    </>
   )
 }

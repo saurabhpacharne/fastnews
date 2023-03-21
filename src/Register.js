@@ -13,7 +13,7 @@ const Register = () => {
    
   const registerUser = (e)=>{
     e.preventDefault();
-    createUserWithEmailAndPassword(auth,email,password).then(()=>navigate("/")).catch((err)=>toast.error(err.message,{
+    createUserWithEmailAndPassword(auth,email,password).then(()=>navigate("/login")).catch((err)=>toast.error(err.message,{
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -31,7 +31,7 @@ const Register = () => {
   <div className='container-fluid'>
     <a href="#" className='navbar-brand'>FASTNEWS</a>
     <ul className='navbar-nav '>
-    <li className='nav-item '><NavLink className='nav-link'to="/">Login</NavLink>
+    <li className='nav-item '><NavLink className='nav-link'to="/login">Login</NavLink>
       </li>
       </ul>
 </div>

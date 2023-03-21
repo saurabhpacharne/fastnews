@@ -5,18 +5,21 @@ import GoogleButton from 'react-google-button'
 import {app } from "./firebase"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useContext } from 'react';
+import { userAuth } from './contex';
 
 
 const Login = () => { 
     let navigate = useNavigate()
-    const googleProvider = new GoogleAuthProvider( )
+    const googleProvider = new GoogleAuthProvider()
+    const {user} = useContext(userAuth)
     const auth = getAuth(app)
   const [email , setEmail]= useState("");
   const [password, setpassword]= useState("")
 
   const signUser = (e)=>{
     e.preventDefault();
-    signInWithEmailAndPassword(auth,email,password).then(()=>navigate("/admin")).catch((err)=>toast.error(err.message,{
+    signInWithEmailAndPassword(auth,email,password).then(()=>navigate("/")).catch((err)=>toast.error(err.message,{
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -28,11 +31,13 @@ const Login = () => {
       }))
     
   }
-   const loginWithGoogle = ()=>{
-    if(signInWithPopup(auth,googleProvider)){
-      navigate("/admin");
+   const loginWithGoogle =async ()=>{
+    const usr = await signInWithPopup(auth,googleProvider )
+    if(usr.user.email=="saurabhpacharne007@gmail.com"){
+      navigate("/feed")
+    }else{
+      navigate("/")
     }
-    
   }
 
   return (
@@ -50,7 +55,6 @@ const Login = () => {
     <h1 className=" text-center mt-5"> Login Here</h1>
         <div className='row justify-content-center'>
             <div className='col-lg-6 col-md-6 col-sm-12 shadow-lg p-4 mt-5'>
-    
             <form>
   <div className="mb-3">
     <label for="exampleInputEmail1" className="form-label">Email address</label>

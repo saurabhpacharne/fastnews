@@ -7,7 +7,7 @@ import { userAuth } from './contex';
 const ProtectedRoute = ({children}) => {
     let navigate = useNavigate()
     const {user} = useContext(userAuth)
-    if(!user){
+    if(user.email!=="saurabhpacharne007@gmail.com" ){
         return navigate("/")
     }
 
